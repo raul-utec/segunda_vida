@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alertas de libros</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .form-group input, .form-group button {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .book-list {
+            margin-top: 20px;
+        }
+        .book-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .book-list ul li {
+            background: #f4f4f4;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registro de Libros</h1>
+
+        <!-- Paso 1: Ingreso de libros -->
+        <div id="step1">
+            <form id="book-form">
+                <div class="form-group">
+                    <label for="book-title">Título del libro</label>
+                    <input type="text" id="book-title" name="book-title" required>
+                </div>
+                <button type="submit">Agregar libro</button>
+            </form>
+
+            <div class="book-list">
+                <h2>Libros en tu lista</h2>
+                <ul id="book-list">
+                    <!-- La lista de libros se agregará aquí -->
+                </ul>
+            </div>
+
+            <button id="finish-button" class="hidden">Finalizar y proporcionar correo</button>
+        </div>
+
+        <!-- Paso 2: Ingreso del correo electrónico -->
+        <div id="step2" class="hidden">
+            <form id="email-form">
+                <div class="form-group">
+                    <label for="user-email">Tu correo electrónico</label>
+                    <input type="email" id="user-email" name="user-email" required>
+                </div>
+                <button type="submit">Registrar lista</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('book-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío del formulario
+
+            const bookTitle = document.getElementById('book-title').value;
+
+            if (bookTitle) {
+                addBookToList(bookTitle);
+                document.getElementById('book-title').value = ''; // Limpiar el campo
+
+                // Mostrar el botón para finalizar y proporcionar correo
+                document.getElementById('finish-button').classList.remove('hidden');
+            }
+        });
+
+        document.getElementById('finish-button').addEventListener('click', function() {
+            // Ocultar el paso 1 y mostrar el paso 2
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        });
+
+        document.getElementById('email-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar el envío del formulario
+
+            const userEmail = document.getElementById('user-email').value;
+            const books = getBookList();
+
+            if (userEmail && books.length > 0) {
+                // Enviar los datos al servidor
+                sendBookRequest(books, userEmail);
+
+                // Limpiar el campo de correo
+                document.getElementById('user-email').value = '';
+            }
+        });
+
+        function addBookToList(title) {
+            const bookList = document.getElementById('book-list');
+            const listItem = document.createElement('li');
+            listItem.textContent = title;
+            bookList.appendChild(listItem);
+        }
+
+        function getBookList() {
+            const bookList = document.getElementById('book-list');
+            const books = [];
+            for (let item of bookList.children) {
+                books.push(item.textContent);
+            }
+            return books;
+        }
+
+        function sendBookRequest(books, email) {
+            // Aquí deberías enviar la información al servidor
+            console.log(Libros: ${books.join(', ')}, Email: ${email});
+
+            // Ejemplo de solicitud de fetch para enviar datos al servidor
+            fetch('https://your-server-endpoint.com/register-book', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ books: books, email: email })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

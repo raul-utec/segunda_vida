@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Segunda Vida</title>
+    
+    <!-- This code is needed for responsive design to work.
+      (Responsive design = make the website look good on
+      smaller screen sizes like a phone or a tablet). -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Load a font called Roboto from Google Fonts. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Here are the CSS files for this page. -->
+    <!--
+    
+    <link rel="stylesheet" href="styles/shared/amazon-header.css">-->
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <link rel="stylesheet" href="styles/pages/amazon.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+<body>
+
+
+  <header>
+        <div class="header-logo">
+            <a href="pagina_web.html">
+              
+            <img src="zz.png" alt="Logo" class="logo">
+            
+            
+            </a>
+            <span class="website-name">Segunda Vida
+            </span>
+        </div>
+        <div class="header-left">
+            <input type="text" id="search" placeholder="Buscar libro...">
+            <button class="sell-books-button">Vende tus libros</button>
+            <button class="create-alerts-button">Crea tus alertas bibliográficas</button>
+        </div>
+        <div class="header-right">
+            <nav>
+                <ul>
+                    <li><a href="crear-cuenta.html">Mi Cuenta</a></li>
+                    <li><a class="cart-quantity js-cart-quantity" href="checkout.html">Carrito</a></li>
+                    <li><a href="#">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+  </header>
+
+
+  <div class="main-content">
+        <aside>
+                <h2>Categorías</h2>
+                    <div ><!--class="categories-wrapper"-->
+                        <ul class="categories">
+                            <li><button class="colores">Artes</button></li>
+                            <li><button  class="colores" onclick="filterBooks('Biografías')">Biografías</button></li>
+                            <li><button  class="colores" onclick="filterBooks('Ciencias')">Ciencias</button></li>
+                            <li><button  class="colores" onclick="filterBooks('Computación')">Computación</button></li>
+                            <li><button  class="colores" onclick="filterBooks('Consulta')">Consulta</button></li>
+                            <li><button  class="colores" onclick="filterBooks('Deportes')">Deportes</button></li>
+                            <li><button  class="colores" onclick="filterBooks('Derecho')">Derecho</button></li>
+                            <li><button  class="colores" onclick="filterBooks('Economía')">Economía</button></li>
+                            <li><button  class="colores" onclick="filterBooks('Estilos')">Estilos</button></li>
+                        </ul>
+                    </div>
+                    <div class="event-image">
+                        <img src="fil.jpg" alt="Evento">
+                    </div>
+        </aside>
+
+        <main>
+  <section id="book-slider">
+    <div class="book-container ">
+      <div class="book-grid js-products-grid">
+      </div>
+    </div>
+  </section>
+</main>
+
+</div> 
+
+  <script type="module" src='scripts/pagina_web.js'></script>
+  <script>
+    document.querySelector('.create-alerts-button').addEventListener('click', function() {
+        window.location.href = 'alertas-libros.html';
+    });
+  
+</script>
+
+<script>
+  document.querySelector('.sell-books-button').addEventListener('click', function() {
+      window.location.href = 'vender-libros.html';
+  });
+
+</script>
+<script>
+  function verReseña() {
+    window.location.href = 'resennas-libros.html';
+  }
+  
+</script>
+
+
+
+</body>
+</html>
+<!--
+  <script type="module"  src="data/cart.js"></script>
+    
+    <script type="module" src='data/product.js'></script>
+    <script type="module" src="scripts/pagina_web.js"></script>-->
+

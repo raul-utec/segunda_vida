@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reseñas de Libros</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            width: 80%;
+            margin: 20px auto;
+            height: 90vh;
+        }
+        .book-details {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            margin-right: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+        .book-details img {
+            width: 150px;
+            margin-right: 20px;
+        }
+        .book-info h1, .book-info h2 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+        .rating {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .rating span {
+            margin-right: 10px;
+        }
+        .rating .stars {
+            color: #f39c12;
+            margin-right: 10px;
+        }
+        .reviews-section {
+            flex: 2;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow-y: auto;
+        }
+        .review {
+            background: #fff;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .profile {
+            display: flex;
+            align-items: center;
+        }
+        .profile img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        .profile-info {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .profile-info h3 {
+            margin: 0;
+            font-size: 1em;
+        }
+        .profile-info .user-rating {
+            color: #f39c12;
+            font-size: 0.9em;
+        }
+        .date {
+            color: #888;
+            font-size: 0.8em;
+        }
+        .review-content p {
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+        .add-review {
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+        }
+        .add-review input, .add-review textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+        .add-review button {
+            padding: 10px 20px;
+            border: none;
+            background: #28a745;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .add-review button:hover {
+            background: #218838;
+        }
+        .error-message {
+            color: #d9534f;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+        .like-comment-section {
+            display: flex;
+            align-items: center;
+        }
+        .like-button, .comment-button {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #007bff;
+            margin-right: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .like-button:hover, .comment-button:hover {
+            text-decoration: underline;
+        }
+        .comment-section {
+            margin-top: 10px;
+        }
+        .comment-section input {
+            width: calc(100% - 130px);
+            padding: 5px;
+            margin-bottom: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            display: inline-block;
+        }
+        .send-button {
+            padding: 5px 10px;
+            border: none;
+            background: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .send-button:hover {
+            background: #0056b3;
+        }
+        .comment {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            border-left: 2px solid #007bff;
+            margin-left: 20px;
+        }
+        .comment .profile {
+            margin-left: -20px;
+        }
+        .reply-section {
+            margin-left: 20px;
+            padding-left: 20px;
+            border-left: 2px solid #ddd;
+        }
+        .reply-button {
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #007bff;
+            margin-top: 5px;
+            display: block;
+        }
+        .reply-button:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="book-details">
+            <img src="https://via.placeholder.com/150" alt="Fools of Fortune">
+            <div class="book-info">
+                <h1>Tontos de la fortuna</h1>
+                <h2>Wilson Chavez</h2>
+                <div class="rating">
+                    <span class="stars" id="average-rating">★★★★☆</span>
+                    <span id="rating-value">3.98</span> · <span id="rating-count">1,269</span> ratings · <span id="review-count">180</span> reviews
+                </div>
+                <p>Colocar aquí contexto del libro y su impacto a nivel de lectores y alguna otra opinión de círculo de lectores.</p>
+                <p><strong>Géneros:</strong> <a href="#">género 1</a>, <a href="#">género 2</a>, <a href="#">género 3</a></p>
+            </div>
+        </div>
+
+        <div class="reviews-section">
+            <div class="add-review">
+                <h3>Agregar reseña</h3>
+                <input type="text" id="user-name" placeholder="Tu nombre">
+                <input type="number" id="user-rating" placeholder="Tu calificación (1-5)" min="1" max="5">
+                <textarea id="user-review" placeholder="Tu reseña"></textarea>
+                <button onclick="addReview()">Enviar Reseña</button>
+                <div id="error-message" class="error-message"></div>
+            </div>
+            <div id="reviews-container"></div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const reviews = [];
+
+            function formatDate(date) {
+                const options = { year: 'numeric', month: 'long', day: 'numeric' };
+                return new Intl.DateTimeFormat('es-ES', options).format(date);
+            }
+
+            function calculateAverageRating(reviews) {
+                const totalRatings = reviews.length;
+                if (totalRatings === 0) return 0;
+                return (reviews.reduce((sum, review) => sum + review.rating, 0) / totalRatings).toFixed(2);
+            }
+
+            function updateRatingsAndReviews() {
+                const averageRating = calculateAverageRating(reviews);
+                const totalRatings = reviews.length;
+
+                document.getElementById('rating-value').textContent = averageRating;
+                document.getElementById('rating-count').textContent = totalRatings;
+
+                const starsElement = document.getElementById('average-rating');
+                const fullStars = Math.floor(averageRating);
+                const halfStar = averageRating % 1 >= 0.5 ? '★' : '';
+                const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+                starsElement.textContent = '★'.repeat(fullStars) + halfStar + '☆'.repeat(emptyStars);
+
+                document.getElementById('review-count').textContent = totalRatings;
+
+                const reviewsContainer = document.getElementById('reviews-container');
+                reviewsContainer.innerHTML = '';
+                reviews.forEach((review, index) => {
+                    const reviewElement = document.createElement('div');
+                    reviewElement.className = 'review';
+                    reviewElement.innerHTML = `
+                        <div class="profile">
+                            <img src="https://via.placeholder.com/50" alt="User ${index + 1}">
+                            <div class="profile-info">
+                                <h3>${review.name}</h3>
+                                <p class="date">${formatDate(new Date())}</p>
+                            </div>
+                        </div>
+                        <div class="user-rating">
+                            ${'★'.repeat(review.rating)}${'☆'.repeat(5 - review.rating)}
+                        </div>
+                        <div class="review-content">
+                            <p>${review.text}</p>
+                        </div>
+                        <div class="like-comment-section">
+                            <button class="like-button" onclick="likeReview(${index})">
+                                <span class="like-icon">👍</span> (${review.likes || 0})
+                            </button>
+                            <button class="comment-button" onclick="toggleCommentSection(${index})">
+                                Comentarios (${review.comments.length})
+                            </button>
+                        </div>
+                        <div class="comment-section" id="comment-section-${index}" style="display: none;">
+                            <input type="text" id="comment-input-${index}" placeholder="Escribe un comentario...">
+                            <button class="send-button" onclick="addComment(${index})">Enviar</button>
+                            <div id="comments-container-${index}" class="reply-section"></div>
+                        </div>
+                    `;
+                    reviewsContainer.appendChild(reviewElement);
+
+                    const commentsContainer = document.getElementById(comments-container-${index});
+                    review.comments.forEach((comment, commentIndex) => {
+                        const commentElement = document.createElement('div');
+                        commentElement.className = 'comment';
+                        commentElement.innerHTML = `
+                            <div class="profile">
+                                <img src="https://via.placeholder.com/30" alt="User">
+                                <div class="profile-info">
+                                    <h3>${comment.name}</h3>
+                                    <p class="date">${formatDate(new Date())}</p>
+                                </div>
+                            </div>
+                            <p>${comment.text}</p>
+                            <button class="reply-button" onclick="toggleReplySection(${index}, ${commentIndex})">Responder</button>
+                            <div id="reply-section-${index}-${commentIndex}" class="reply-section" style="display: none;">
+                                <input type="text" id="reply-input-${index}-${commentIndex}" placeholder="Escribe una respuesta...">
+                                <button class="send-button" onclick="addReply(${index}, ${commentIndex})">Enviar</button>
+                                <div id="replies-container-${index}-${commentIndex}" class="reply-section"></div>
+                            </div>
+                        `;
+                        commentsContainer.appendChild(commentElement);
+
+                        const repliesContainer = document.getElementById(replies-container-${index}-${commentIndex});
+                        comment.replies.forEach((reply) => {
+                            const replyElement = document.createElement('div');
+                            replyElement.className = 'comment';
+                            replyElement.innerHTML = `
+                                <div class="profile">
+                                    <img src="https://via.placeholder.com/30" alt="User">
+                                    <div class="profile-info">
+                                        <h3>${reply.name}</h3>
+                                        <p class="date">${formatDate(new Date())}</p>
+                                    </div>
+                                </div>
+                                <p>${reply.text}</p>
+                            `;
+                            repliesContainer.appendChild(replyElement);
+                        });
+                    });
+                });
+            }
+
+            window.addReview = function() {
+                const name = document.getElementById('user-name').value;
+                const rating = parseInt(document.getElementById('user-rating').value);
+                const text = document.getElementById('user-review').value;
+                const errorMessage = document.getElementById('error-message');
+
+                if (!name || !rating || !text) {
+                    errorMessage.textContent = 'Por favor, completa todos los campos.';
+                    return;
+                }
+
+                if (rating < 1 || rating > 5 || isNaN(rating)) {
+                    errorMessage.textContent = 'La calificación debe ser un número del 1 al 5.';
+                    return;
+                }
+
+                errorMessage.textContent = ''; // Clear any previous error messages
+
+                reviews.push({ name, rating, text, likes: 0, comments: [] });
+                updateRatingsAndReviews();
+
+                document.getElementById('user-name').value = '';
+                document.getElementById('user-rating').value = '';
+                document.getElementById('user-review').value = '';
+            };
+
+            window.likeReview = function(index) {
+                reviews[index].likes = (reviews[index].likes || 0) + 1;
+                updateRatingsAndReviews();
+            };
+
+            window.toggleCommentSection = function(index) {
+                const commentSection = document.getElementById(comment-section-${index});
+                commentSection.style.display = commentSection.style.display === 'none' ? 'block' : 'none';
+            };
+
+            window.addComment = function(index) {
+                const commentInput = document.getElementById(comment-input-${index});
+                const commentText = commentInput.value;
+                const commentName = 'Usuario'; // Puedes cambiar esto por un input de nombre de usuario
+
+                if (!commentText) {
+                    alert('Por favor, escribe un comentario.');
+                    return;
+                }
+
+                reviews[index].comments.push({ name: commentName, text: commentText, replies: [] });
+                commentInput.value = '';
+                updateRatingsAndReviews();
+            };
+
+            window.toggleReplySection = function(reviewIndex, commentIndex) {
+                const replySection = document.getElementById(reply-section-${reviewIndex}-${commentIndex});
+                replySection.style.display = replySection.style.display === 'none' ? 'block' : 'none';
+            };
+
+            window.addReply = function(reviewIndex, commentIndex) {
+                const replyInput = document.getElementById(reply-input-${reviewIndex}-${commentIndex});
+                const replyText = replyInput.value;
+                const replyName = 'Usuario'; // Puedes cambiar esto por un input de nombre de usuario
+
+                if (!replyText) {
+                    alert('Por favor, escribe una respuesta.');
+                    return;
+                }
+
+                reviews[reviewIndex].comments[commentIndex].replies.push({ name: replyName, text: replyText });
+                replyInput.value = '';
+                updateRatingsAndReviews();
+            };
+
+            updateRatingsAndReviews();
+        });
+    </script>
+</body>
+</html>
